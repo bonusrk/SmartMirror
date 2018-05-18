@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Clocks from './Clocks';
+import './app.less';
 
 class App extends Component {
+
   render() {
-    const {location} = this.props;
     return (
-        <div className='content'>
-          <h1>Hello, Kireenkov!!!</h1>
-          {this.props.children}
-        </div>
+      <div className='content'>
+        <h1>Hello, Kireenkov!!!</h1>
+        <Clocks />
+        {this.props.children}
+      </div>
     );
   }
 }
