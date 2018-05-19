@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Clocks from './Clocks';
-import './app.less';
 import { LsHelper } from '../utils';
+import { lsPreset } from '../constants';
+import './app.less';
 
 
 class App extends Component {
@@ -12,21 +12,22 @@ class App extends Component {
 
 
   componentDidMount() {
-    this.ls = new LsHelper(window.localStorage);
+    this.ls = new LsHelper(window.localStorage, 'smirror');
+    if (!this.ls.prop('smirror')) {
+      this.ls.setupStorage('smirror', lsPreset);
+    }
+    console.log(JSON.parse(this.ls.prop('smirror')));
   }
 
 
   render() {
     return (
       <div className='content'>
-        <h1>Hello, Kireenkov!!!</h1>
+        <h1>Hello, User!!!</h1>
         <Clocks />
-        {this.props.children}
       </div>
     );
   }
 }
 
-export default connect(state => {
-  return {};
-}, {})(App);
+export default App;

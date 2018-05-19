@@ -15,5 +15,16 @@ export const methods = {
   delete: 'DELETE'
 };
 
+export const lsPreset = {
+  weather: {
+    timestamp: ''
+  },
+  tasks: {
+    timestamp: ''
+  },
+  sensor: {
+    timestamp: ''
+  }
+};
 
 export const key = '7cb8efed312568cf54a9b2c5b42d1e75';
