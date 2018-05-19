@@ -2,8 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Clocks from './Clocks';
 import './app.less';
+import { LsHelper } from '../utils';
+
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+
+  componentDidMount() {
+    this.ls = new LsHelper(window.localStorage);
+  }
+
 
   render() {
     return (
