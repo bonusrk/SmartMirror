@@ -16,13 +16,21 @@ class App extends Component {
   }
 
 
-  componentDidMount() {
+  async componentDidMount() {
     this.ls = new LsHelper(window.localStorage, 'smirror');
     this.ls.init(lsPreset);
-    this.setState({
+    await this.setState({
       app: this.ls.read()
     });
+    this.initApp();
   }
+
+  /**
+   * Initialize application intervals, timestamps etc.
+   */
+  initApp = () => {
+
+  };
 
   /**
    *
