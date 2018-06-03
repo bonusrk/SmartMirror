@@ -17,13 +17,16 @@ export const methods = {
 
 export const lsPreset = {
   weather: {
-    timestamp: ''
+    timestamp: '',
+    data: {},
   },
   tasks: {
-    timestamp: ''
+    timestamp: '',
+    data: {},
   },
   sensor: {
-    timestamp: ''
+    timestamp: '',
+    data: {},
   }
 };
 

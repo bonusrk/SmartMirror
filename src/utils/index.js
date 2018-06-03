@@ -13,33 +13,38 @@ function LsHelper(storage, key) {
   this.storage = storage;
 
   /**
-   * create a key with preset in localStorage
+   * Initialize our local storage key with preset
    * @param preset {object} preset to setup in localStorage
    */
-  this.setupStorage = function (preset) {
-    this.storage.setItem(this.key, JSON.stringify(preset));
+  this.init = function (preset) {
+    if (!this.storage.getItem(this.key)) {
+      this.storage.setItem(this.key, JSON.stringify(preset));
+    }
   };
 
   /**
-   * Modify or read localStorage property
-   * @param value {string}
-   * @param key {string}
+   * Read localStorage key data and return it like object
+   * @returns {object} localStorage key string, converted to object
    */
-  this.prop = function (value, key) {
-    if (typeof value !== 'string') {
-      throw new Error('"value" should be a type of "string" ');
-    }
-    if (!key) {
-      return JSON.parse(this.storage.getItem(this.key))[value];
-    } else {
-      if (typeof key !== 'string') {
-        throw new Error('"key" should be a type of "string"');
-      }
-      const item = JSON.parse(this.storage.getItem[this.key]);
-      item[key] = value;
-      return this.storage.setItem(this.key, JSON.stringify(item));
-    }
+  this.read = function () {
+    return JSON.parse(this.storage.getItem(this.key));
   };
+
+  /**
+   * Write data to localStorage key
+   * @param data {object} object to store inside localStorage
+   */
+  this.write = function (data) {
+    this.storage.setItem(this.key, JSON.stringify(data));
+  };
+
+  /**
+   * Clear localStorage from our key
+   */
+  this.delete = function () {
+    this.storage.removeItem(this.key);
+  };
+
 }
 
 export { LsHelper };

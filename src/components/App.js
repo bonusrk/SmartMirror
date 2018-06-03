@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import Clocks from './Clocks';
 import { LsHelper } from '../utils';
 import { lsPreset } from '../constants';
@@ -8,17 +9,35 @@ import './app.less';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.ls = false;
+    this.state = {
+      app: {}
+    };
   }
 
 
   componentDidMount() {
     this.ls = new LsHelper(window.localStorage, 'smirror');
-    if (!this.ls.prop('smirror')) {
-      this.ls.setupStorage('smirror', lsPreset);
-    }
-    console.log(JSON.parse(this.ls.prop('smirror')));
+    this.ls.init(lsPreset);
+    this.setState({
+      app: this.ls.read()
+    });
   }
 
+  /**
+   *
+   * @param key
+   * @param data
+   */
+  onUpdate = async (key, data) => {
+    await this.setState({
+      [key]: {
+        data: data,
+        timestamp: moment()
+      }
+    });
+    this.ls.write(this.state.app);
+  };
 
   render() {
     return (
