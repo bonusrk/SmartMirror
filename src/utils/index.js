@@ -1,3 +1,5 @@
+import axios from 'axios';
+import moment from 'moment'
 /**
  * Handle operations with localStorage
  * @param key {string} key to store in localStorage
@@ -16,9 +18,12 @@ function LsHelper(storage, key) {
    * Initialize our local storage key with preset
    * @param preset {object} preset to setup in localStorage
    */
-  this.init = function (preset) {
-    if (!this.storage.getItem(this.key)) {
-      this.storage.setItem(this.key, JSON.stringify(preset));
+  this.init = async function (preset) {
+    const item = this.storage.getItem(this.key);
+    console.log('ITEM===>', item);
+    if (!item) {
+      console.log('INIT!!!!')
+      await this.storage.setItem(this.key, JSON.stringify(preset));
     }
   };
 
@@ -35,6 +40,7 @@ function LsHelper(storage, key) {
    * @param data {object} object to store inside localStorage
    */
   this.write = function (data) {
+    console.log('WRITE TO LS!!!',data)
     this.storage.setItem(this.key, JSON.stringify(data));
   };
 
@@ -47,4 +53,13 @@ function LsHelper(storage, key) {
 
 }
 
-export { LsHelper };
+const apiCall = (method, url, params) => {
+  return axios({
+      method: method,
+      url: url,
+      params: params
+    }
+  );
+};
+
+export { LsHelper, apiCall };

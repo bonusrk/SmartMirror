@@ -1,3 +1,5 @@
+import moment from 'moment';
+import config from '../config';
 //STATUS
 export const SUCCESS = '_SUCCESS';
 export const FAIL = '_FAIL';
@@ -17,17 +19,22 @@ export const methods = {
 
 export const lsPreset = {
   weather: {
-    timestamp: '',
+    timestamp: moment(),
     data: {},
   },
-  tasks: {
-    timestamp: '',
-    data: {},
-  },
-  sensor: {
-    timestamp: '',
-    data: {},
-  }
+  // tasks: {
+  //   timestamp: '',
+  //   data: {},
+  // },
+  // sensor: {
+  //   timestamp: '',
+  //   data: {},
+  // }
 };
 
-export const key = '7cb8efed312568cf54a9b2c5b42d1e75';
+export const urls = {
+  weather: config.urls.weather(config.city, config.keys.weather),
+};
+
+export const weatherApiUrl = config.urls.weather(config.city, config.keys.weather);
+export const weatherIconsUrl = icon => `http://openweathermap.org/img/w/${icon}.png`;

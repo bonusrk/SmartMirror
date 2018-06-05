@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 
+moment.locale('ru');
+
 class Clocks extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      time: moment().format('MMMM Do YYYY, h:mm:ss a')
+      time: moment().format('MMMM D YYYY, h:mm:ss')
     };
   }
 
@@ -27,7 +29,7 @@ class Clocks extends PureComponent {
    */
   timer = () => {
     this.setState({
-      time: moment().format('MMMM Do YYYY, h:mm:ss a')
+      time: moment().format('MMMM D YYYY, h:mm:ss')
     });
   };
 
