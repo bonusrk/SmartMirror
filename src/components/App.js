@@ -38,11 +38,12 @@ class App extends Component {
    */
   initApp = async () => {
     const state = this.state;
+    //set intervals to call services
     for (let key in state) {
       this[key] = setInterval(() => {
         this.handleRequest(key);
       }, config.delays[key]);
-      console.log(this[key]);
+      //if enough time passed - update services data on init
       if (this.checkInterval(key)) {
         this.handleRequest(key);
       }
@@ -55,6 +56,7 @@ class App extends Component {
    * @returns {Promise<void>}
    */
   handleRequest = async (key) => {
+    console.log(methods.get + ' ' + 'REQUEST TO ', urls[key] + ' with ');
     try {
       const response = await apiCall(methods.get, urls[key], {});
       console.log('RESPONSE ===> ', response);
