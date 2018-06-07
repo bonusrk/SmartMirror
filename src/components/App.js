@@ -11,6 +11,7 @@ import './app.less';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.intervals = {};
     this.ls = false;
     this.state = {};
   }
@@ -27,7 +28,9 @@ class App extends Component {
 
 
   componentWillUnmount() {
-
+    for (let key in this.state) {
+      clearInterval(this[key]);
+    }
   }
 
   /**
@@ -36,15 +39,28 @@ class App extends Component {
   initApp = async () => {
     const state = this.state;
     for (let key in state) {
+      this[key] = setInterval(() => {
+        this.handleRequest(key);
+      }, config.delays[key]);
+      console.log(this[key]);
       if (this.checkInterval(key)) {
-        try {
-          const response = await apiCall(methods.get, urls[key], {});
-          console.log('RESPONSE ===> ', response);
-          this.onUpdate(key, response.data);
-        } catch (error) {
-          console.log(error);
-        }
+        this.handleRequest(key);
       }
+    }
+  };
+
+  /**
+   * Make a request to provided url by key
+   * @param key {string} name of service to call and key in state to store
+   * @returns {Promise<void>}
+   */
+  handleRequest = async (key) => {
+    try {
+      const response = await apiCall(methods.get, urls[key], {});
+      console.log('RESPONSE ===> ', response);
+      this.onUpdate(key, response.data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
