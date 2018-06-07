@@ -37,10 +37,9 @@ class App extends Component {
     const state = this.state;
     for (let key in state) {
       if (this.checkInterval(key)) {
-        console.log(this.checkInterval(key));
         try {
           const response = await apiCall(methods.get, urls[key], {});
-          console.log(response);
+          console.log('RESPONSE ===> ', response);
           this.onUpdate(key, response.data);
         } catch (error) {
           console.log(error);
@@ -55,7 +54,8 @@ class App extends Component {
    * @returns {boolean}
    */
   checkInterval = (key) => {
-    console.log('CHECK INTERVAL', moment().valueOf() - moment(this.state[key].timestamp).valueOf(), '====', config.intervals[key]);
+    console.log('CHECK INTERVAL', moment().valueOf() - moment(this.state[key].timestamp).valueOf(),
+      '====', config.intervals[key]);
     return moment().valueOf() - moment(this.state[key].timestamp).valueOf() > config.intervals[key];
   };
 
