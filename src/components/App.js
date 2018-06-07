@@ -22,7 +22,6 @@ class App extends Component {
     await this.setState(
       this.ls.read()
     );
-    console.log(this.state);
     this.initApp();
   }
 
@@ -56,9 +55,6 @@ class App extends Component {
    * @returns {boolean}
    */
   checkInterval = (key) => {
-    console.log(moment().valueOf());
-    console.log(this.state[key].timestamp);
-    console.log(moment(this.state[key].timestamp).valueOf());
     console.log('CHECK INTERVAL', moment().valueOf() - moment(this.state[key].timestamp).valueOf(), '====', config.intervals[key]);
     return moment().valueOf() - moment(this.state[key].timestamp).valueOf() > config.intervals[key];
   };

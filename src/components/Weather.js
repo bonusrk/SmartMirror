@@ -13,7 +13,7 @@ class Weather extends Component {
       <div className='weather'>
         <img src={weatherIconsUrl(weather[0].icon)} />
         <ul>
-          <li>Температура: {main.temp}</li>
+          <li>Температура: {Math.round(main.temp)} &#8451;</li>
           <li>Давление: {main.pressure}</li>
           <li>Влажность: {main.humidity} %</li>
         </ul>
