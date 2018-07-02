@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { weatherIconsUrl } from '../constants';
 
 class Weather extends Component {
@@ -12,26 +11,24 @@ class Weather extends Component {
 
   render() {
     const { weatherData } = this.props;
-    if (!weatherData) return false;
+    if (!weatherData.data) return false;
     const { weather, main } = weatherData.data;
     return (
       <div className="weather">
         <img alt="weather" src={weatherIconsUrl(weather[0].icon)} />
         <ul>
           <li>
-            Температура:
-            {Math.round(main.temp)}
-            {' '}
+            Температура:&nbsp;
+            {main.temp}
             &#8451;
           </li>
           <li>
-            Давление:
+            Давление:&nbsp;
             {main.pressure}
           </li>
           <li>
-            Влажность:
+            Влажность:&nbsp;
             {main.humidity}
-            {' '}
             %
           </li>
         </ul>

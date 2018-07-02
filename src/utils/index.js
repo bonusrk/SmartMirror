@@ -20,7 +20,6 @@ function LsHelper(storage, key) {
    */
   this.init = async preset => {
     const item = this.storage.getItem(this.key);
-    console.log('ITEM===>', item);
     if (!item) {
       console.log('INIT!!!!');
       await this.storage.setItem(this.key, JSON.stringify(preset));

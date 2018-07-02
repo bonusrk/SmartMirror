@@ -101,14 +101,14 @@ class App extends Component {
   };
 
   render() {
-    const { weatherData } = this.state;
+    const { weather } = this.state;
     return (
       <div className="content">
         <h1>
           Hello, User!!!
         </h1>
         <Clocks />
-        <Weather weather={weatherData || {}} />
+        <Weather weatherData={weather || {}} />
         <Tasks />
       </div>
     );
