@@ -12,7 +12,7 @@ class Weather extends Component {
 
   render() {
     const { weatherData } = this.props;
-    if (!weatherData.data) return false;
+    if (!weatherData) return false;
     const { weather, main } = weatherData.data;
     return (
       <div className="weather">

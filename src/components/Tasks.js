@@ -14,10 +14,14 @@ class Tasks extends Component {
   }
 
   async componentDidMount() {
-    const response = await axios.get('http://127.0.0.1:3000/tasks');
-    this.setState({
-      tasks: response.data
-    });
+    try {
+      const response = await axios.get('http://127.0.0.1:3000/tasks');
+      this.setState({
+        tasks: response.data
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 
@@ -29,7 +33,8 @@ class Tasks extends Component {
           <div key={i}>
             {item.summary}
             {' '}
-:
+            {' '}
+            :
             {' '}
             {item.updated}
           </div>

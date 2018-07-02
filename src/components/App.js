@@ -12,9 +12,6 @@ import './app.less';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tasks: []
-    };
     this.intervals = {};
     this.ls = false;
     this.state = {};
@@ -73,20 +70,17 @@ class App extends Component {
   };
 
   /**
-   * Make a request to provided url by key
-   * @param key {string} name of service to call and key in state to store
-   * @returns {Promise<void>}
+   * Check if it is enough time passed to make new apiCall
+   * @param key {string} key to check
+   * @returns {boolean}
    */
-  handleRequest = async key => {
-    console.log(`${methods.get} REQUEST TO `, `${urls[key]} with `);
-    try {
-      const response = await apiCall(methods.get, urls[key], {});
-      console.log('RESPONSE ===> ', response);
-      this.onUpdate(key, response.data);
-    } catch (error) {
-      console.log(error);
-    }
+  checkInterval = key => {
+    const { state } = this;
+    console.log('CHECK INTERVAL', moment().valueOf() - moment(state[key].timestamp).valueOf(),
+      '====', config.intervals[key]);
+    return moment().valueOf() - moment(state[key].timestamp).valueOf() > config.intervals[key];
   };
+
 
   /**
    * Initialize application intervals, timestamps, etc.
@@ -94,7 +88,8 @@ class App extends Component {
   initApp = async () => {
     const { state } = this;
     // set intervals to call services
-    state.forEach(key => {
+    const stateKeys = Object.keys(state);
+    stateKeys.forEach(key => {
       this.intervals[key] = setInterval(() => {
         this.handleRequest(key);
       }, config.delays[key]);

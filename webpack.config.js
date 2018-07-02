@@ -1,12 +1,17 @@
-const path = require('path');
+const webpack = require('webpack');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
+const localeEnv = process.env.NODE_ENV === 'locale';
+const prodEnv = process.env.NODE_ENV === 'production';
+const devEnv = process.env.NODE_ENV === 'development';
 
 const config = {
-  entry: path.resolve(__dirname, 'src/index.js'),
+  entry: ['babel-polyfill', './src/index.js'],
   output: {
-    path: path.resolve(__dirname, './build/lib'),
-    filename: 'index.js',
+    filename: 'bundle-[chunkhash].js',
   },
   module: {
     rules: [
@@ -44,10 +49,21 @@ const config = {
     ],
   },
   plugins: [
+    new HtmlWebPackPlugin({
+      template: './src/index.html',
+      filename: './index.html',
+    }),
     new MiniCssExtractPlugin({
-      filename: 'styles.css',
+      filename: '[contenthash].css',
       chunkFilename: '[id].css',
     }),
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ru/),
   ],
 };
+
+if (!localeEnv) config.plugins.push(new CleanWebpackPlugin('./dist'));
+
+if (process.argv.includes('--analyze')) {
+  config.plugins.push(new BundleAnalyzerPlugin());
+}
 module.exports = config;
