@@ -3,6 +3,7 @@ import moment from 'moment';
 import config from '../config';
 import Clocks from './Clocks';
 import Weather from './Weather';
+import Tasks from './Tasks';
 import { apiCall, LsHelper } from '../utils';
 import { lsPreset, methods, urls } from '../constants';
 import './app.less';
@@ -11,6 +12,9 @@ import './app.less';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      tasks: []
+    };
     this.intervals = {};
     this.ls = false;
     this.state = {};
@@ -29,7 +33,7 @@ class App extends Component {
 
   componentWillUnmount() {
     for (let key in this.state) {
-      clearInterval(this[key]);
+      clearInterval(this.intervals[key]);
     }
   }
 
@@ -40,7 +44,7 @@ class App extends Component {
     const state = this.state;
     //set intervals to call services
     for (let key in state) {
-      this[key] = setInterval(() => {
+      this.intervals[key] = setInterval(() => {
         this.handleRequest(key);
       }, config.delays[key]);
       //if enough time passed - update services data on init
@@ -102,6 +106,7 @@ class App extends Component {
         <h1>Hello, User!!!</h1>
         <Clocks />
         <Weather weather={this.state.weather || {}} />
+        <Tasks />
       </div>
     );
   }
