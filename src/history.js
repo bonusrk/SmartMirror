@@ -1,3 +1,3 @@
-import {hashHistory, browserHistory} from 'react-router'
+import { browserHistory, hashHistory } from 'react-router';
 
-export const history = process.env.NODE_ENV === 'locale' ? hashHistory : browserHistory
+export const history = process.env.NODE_ENV === 'locale' ? hashHistory : browserHistory;

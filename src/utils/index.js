@@ -18,7 +18,7 @@ function LsHelper(storage, key) {
    * Initialize our local storage key with preset
    * @param preset {object} preset to setup in localStorage
    */
-  this.init = async function (preset) {
+  this.init = async preset => {
     const item = this.storage.getItem(this.key);
     console.log('ITEM===>', item);
     if (!item) {
@@ -31,15 +31,13 @@ function LsHelper(storage, key) {
    * Read localStorage key data and return it like object
    * @returns {object} localStorage key string, converted to object
    */
-  this.read = function () {
-    return JSON.parse(this.storage.getItem(this.key));
-  };
+  this.read = () => JSON.parse(this.storage.getItem(this.key));
 
   /**
    * Write data to localStorage key
    * @param data {object} object to store inside localStorage
    */
-  this.write = function (data) {
+  this.write = data => {
     console.log('WRITE TO LS!!!', data);
     this.storage.setItem(this.key, JSON.stringify(data));
   };
@@ -47,10 +45,9 @@ function LsHelper(storage, key) {
   /**
    * Clear localStorage from our key
    */
-  this.delete = function () {
+  this.delete = () => {
     this.storage.removeItem(this.key);
   };
-
 }
 
 /**
@@ -60,13 +57,6 @@ function LsHelper(storage, key) {
  * @param params {object} params for request
  * @returns {AxiosPromise}
  */
-const apiCall = (method, url, params) => {
-  return axios({
-      method: method,
-      url: url,
-      params: params
-    }
-  );
-};
+const apiCall = (method, url, params) => axios({ method, url, params });
 
 export { LsHelper, apiCall };

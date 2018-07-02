@@ -32,55 +32,11 @@ class App extends Component {
 
 
   componentWillUnmount() {
-    for (let key in this.state) {
+    const { state } = this;
+    state.forEach(key => {
       clearInterval(this.intervals[key]);
-    }
+    });
   }
-
-  /**
-   * Initialize application intervals, timestamps, etc.
-   */
-  initApp = async () => {
-    const state = this.state;
-    //set intervals to call services
-    for (let key in state) {
-      this.intervals[key] = setInterval(() => {
-        this.handleRequest(key);
-      }, config.delays[key]);
-      //if enough time passed - update services data on init
-      if (this.checkInterval(key)) {
-        this.handleRequest(key);
-      }
-    }
-  };
-
-  /**
-   * Make a request to provided url by key
-   * @param key {string} name of service to call and key in state to store
-   * @returns {Promise<void>}
-   */
-  handleRequest = async (key) => {
-    console.log(methods.get + ' ' + 'REQUEST TO ', urls[key] + ' with ');
-    try {
-      const response = await apiCall(methods.get, urls[key], {});
-      console.log('RESPONSE ===> ', response);
-      this.onUpdate(key, response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  /**
-   * Check if it is enough time passed to make new apiCall
-   * @param key {string} key to check
-   * @returns {boolean}
-   */
-  checkInterval = (key) => {
-    console.log('CHECK INTERVAL', moment().valueOf() - moment(this.state[key].timestamp).valueOf(),
-      '====', config.intervals[key]);
-    return moment().valueOf() - moment(this.state[key].timestamp).valueOf() > config.intervals[key];
-  };
-
 
   /**
    *
@@ -91,7 +47,7 @@ class App extends Component {
     console.log('UPDATE!!!');
     await this.setState({
       [key]: {
-        data: data,
+        data,
         timestamp: moment()
       }
     });
@@ -100,12 +56,64 @@ class App extends Component {
     console.log('LocalStorage AFTER UPDATE====>', this.ls.read());
   };
 
+  /**
+   * Make a request to provided url by key
+   * @param key {string} name of service to call and key in state to store
+   * @returns {Promise<void>}
+   */
+  handleRequest = async key => {
+    console.log(`${methods.get} REQUEST TO `, `${urls[key]} with `);
+    try {
+      const response = await apiCall(methods.get, urls[key], {});
+      console.log('RESPONSE ===> ', response);
+      this.onUpdate(key, response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  /**
+   * Make a request to provided url by key
+   * @param key {string} name of service to call and key in state to store
+   * @returns {Promise<void>}
+   */
+  handleRequest = async key => {
+    console.log(`${methods.get} REQUEST TO `, `${urls[key]} with `);
+    try {
+      const response = await apiCall(methods.get, urls[key], {});
+      console.log('RESPONSE ===> ', response);
+      this.onUpdate(key, response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  /**
+   * Initialize application intervals, timestamps, etc.
+   */
+  initApp = async () => {
+    const { state } = this;
+    // set intervals to call services
+    state.forEach(key => {
+      this.intervals[key] = setInterval(() => {
+        this.handleRequest(key);
+      }, config.delays[key]);
+      // if enough time passed - update services data on init
+      if (this.checkInterval(key)) {
+        this.handleRequest(key);
+      }
+    });
+  };
+
   render() {
+    const { weatherData } = this.state;
     return (
-      <div className='content'>
-        <h1>Hello, User!!!</h1>
+      <div className="content">
+        <h1>
+          Hello, User!!!
+        </h1>
         <Clocks />
-        <Weather weather={this.state.weather || {}} />
+        <Weather weather={weatherData || {}} />
         <Tasks />
       </div>
     );

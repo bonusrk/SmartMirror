@@ -3,6 +3,7 @@ import axios from 'axios';
 
 class Tasks extends Component {
   static propTypes = {};
+
   static defaultProps = {};
 
   constructor(props) {
@@ -21,11 +22,18 @@ class Tasks extends Component {
 
 
   render() {
+    const { tasks } = this.state;
     return (
       <div>
-        {this.state.tasks.map((item, i) => {
-          return <div key={i}>{item.summary} : {item.updated}</div>;
-        })}
+        {tasks.map((item, i) => (
+          <div key={i}>
+            {item.summary}
+            {' '}
+:
+            {' '}
+            {item.updated}
+          </div>
+        ))}
       </div>
     );
   }

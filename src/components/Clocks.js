@@ -4,16 +4,16 @@ import moment from 'moment';
 moment.locale('ru');
 
 class Clocks extends PureComponent {
+  static propTypes = {};
+
+  static defaultProps = {};
+
   constructor(props) {
     super(props);
     this.state = {
       time: moment().format('MMMM D YYYY, h:mm:ss')
     };
   }
-
-  static propTypes = {};
-  static defaultProps = {};
-
 
   componentDidMount() {
     this.interval = setInterval(this.timer, 1000);
@@ -34,9 +34,10 @@ class Clocks extends PureComponent {
   };
 
   render() {
+    const { time } = this.state;
     return (
-      <div className='clock'>
-        {this.state.time}
+      <div className="clock">
+        {time}
       </div>
     );
   }
